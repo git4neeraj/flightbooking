@@ -2,6 +2,7 @@ package com.ideas.codingtest.fbl.business;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -9,14 +10,20 @@ import org.junit.Test;
  */
 public class TestBookingService {
 
+   private BookingService bookingService;
+    @BeforeClass
+    private void preSetUp(){
+        bookingService=new BookingService();
+    }
+
     @Before
-    private void setUp(){
+    private void postSetUpPerTest(){
 
     }
 
     @Test
     public void testBookFlight(){
-
+        bookingService.bookFlight();
     }
 
     @After
