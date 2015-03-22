@@ -1,21 +1,33 @@
 package com.ideas.codingtest.fbl.domain;
 
+import com.ideas.codingtest.fbl.domain.dijkstra.Edge;
+import com.ideas.codingtest.fbl.domain.dijkstra.Vertex;
+
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by Neeraj on 3/16/2015.
+ * The type Flight.
  */
-public class Flight {
+public class Flight implements Edge {
 
     private final List<Booking> bookings = new LinkedList<>();
-    private String number;
+
+    private String name;
+
+    private String id;
+
     private Date departureTime;
+
     private Date arrivalTime;
+
     private Airport departureAirport;
+
     private Airport arrivalAirport;
+
     private Plane plane;
+
 
     /**
      * Instantiates a new Flight.
@@ -23,7 +35,8 @@ public class Flight {
      * @param builder the builder
      */
     public Flight(Builder builder) {
-        this.number = builder.number;
+        this.name = builder.name;
+        this.id=builder.id;
         this.departureTime = builder.departureTime;
         this.arrivalTime = builder.arrivalTime;
         this.departureAirport = builder.departureAirport;
@@ -32,22 +45,26 @@ public class Flight {
     }
 
 
-    /**
-     * Gets number.
-     *
-     * @return the number
-     */
-    public String getNumber() {
-        return number;
+    @Override
+    public String getId() {
+        return null;
     }
 
-    /**
-     * Sets number.
-     *
-     * @param number the number
-     */
-    public void setNumber(String number) {
-        this.number = number;
+
+
+    @Override
+    public Vertex getArrivalAirport() {
+        return null;
+    }
+
+    @Override
+    public Vertex getDepartureAirport() {
+        return null;
+    }
+
+    @Override
+    public int getWeight() {
+        return 0;
     }
 
 
@@ -56,7 +73,9 @@ public class Flight {
      */
     public static class Builder {
 
-        private String number;
+        private String name;
+
+        private String id;
 
         private Date departureTime;
 
@@ -72,15 +91,17 @@ public class Flight {
         /**
          * Instantiates a new Builder.
          *
-         * @param number the number
+         * @param name the name
+         * @param id the id
          * @param plane the plane
          * @param arrivalAirport the arrival airport
          * @param departureAirport the departure airport
          * @param arrivalTime the arrival time
          * @param departureTime the departure time
          */
-        public Builder(String number, Plane plane, Airport arrivalAirport, Airport departureAirport, Date arrivalTime, Date departureTime) {
-            this.number = number;
+        public Builder(String name,String id, Plane plane, Airport arrivalAirport, Airport departureAirport, Date arrivalTime, Date departureTime) {
+            this.name = name;
+            this.id = id;
             this.plane = plane;
             this.arrivalAirport = arrivalAirport;
             this.departureAirport = departureAirport;
@@ -90,13 +111,24 @@ public class Flight {
         }
 
         /**
-         * Number builder.
+         * Name builder.
          *
-         * @param number the number
+         * @param name the name
          * @return the builder
          */
-        public Builder number(String number) {
-            this.number = number;
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        /**
+         * Id builder.
+         *
+         * @param id the id
+         * @return the builder
+         */
+        public Builder id(String id) {
+            this.id = id;
             return this;
         }
 
