@@ -45,6 +45,7 @@ public class Flight implements Edge {
         this.departureAirport = builder.departureAirport;
         this.arrivalAirport = builder.arrivalAirport;
         this.plane = builder.plane;
+        this.wieght=builder.weight;
     }
 
 
