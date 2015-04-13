@@ -10,8 +10,19 @@ import java.util.List;
  */
 public interface IFlightBookingAlgo {
 
+    /**
+     * Execute void.
+     *
+     * @param sourceAirport the source airport
+     */
     public void execute(Vertex sourceAirport);
 
+    /**
+     * Gets cost effective path.
+     *
+     * @param target the target
+     * @return the cost effective path
+     */
     public List<Vertex> getCostEffectivePath(Vertex target);
 
 }

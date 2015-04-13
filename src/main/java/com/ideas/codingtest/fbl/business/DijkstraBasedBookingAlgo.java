@@ -71,6 +71,12 @@ public class DijkstraBasedBookingAlgo implements IFlightBookingAlgo{
 
     }
 
+    /**
+     * Gets the distance
+     * @param sourceAirport
+     * @param destinationAirport
+     * @return
+     */
     private int getDistance(Vertex sourceAirport, Vertex destinationAirport) {
         for (Edge flight : flights) {
             if (flight.getDepartureAirport().equals(sourceAirport)
@@ -81,6 +87,11 @@ public class DijkstraBasedBookingAlgo implements IFlightBookingAlgo{
         throw new RuntimeException("Should not happen");
     }
 
+    /**
+     * Gets the neighbors
+     * @param airport
+     * @return
+     */
     private List<Vertex> getNeighbors(Vertex airport) {
         List<Vertex> neighbors = new ArrayList<Vertex>();
         for (Edge flight : flights) {
@@ -92,6 +103,11 @@ public class DijkstraBasedBookingAlgo implements IFlightBookingAlgo{
         return neighbors;
     }
 
+    /**
+     * Gets the minimum vertex
+     * @param airports
+     * @return
+     */
     private Vertex getMinimum(Set<Vertex> airports) {
         Vertex minimum = null;
         for (Vertex vertex : airports) {
@@ -106,10 +122,20 @@ public class DijkstraBasedBookingAlgo implements IFlightBookingAlgo{
         return minimum;
     }
 
+    /**
+     *  Checks if the vertex is setteled
+     * @param airport
+     * @return boolean
+     */
     private boolean isSettled(Vertex airport) {
         return settledNodes.contains(airport);
     }
 
+    /**
+     * Gets the shortest distance
+     * @param destinationAirport
+     * @return int
+     */
     private int getShortestDistance(Vertex destinationAirport) {
         Integer d = airportDistanceMap.get(destinationAirport);
         if (d == null) {

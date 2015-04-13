@@ -64,4 +64,13 @@ public class Airport implements Vertex {
         result = 31 * result + country.hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Airport{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", country=" + country +
+                '}';
+    }
 }

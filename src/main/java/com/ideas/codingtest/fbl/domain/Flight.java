@@ -159,6 +159,12 @@ public class Flight implements Edge {
             return this;
         }
 
+        /**
+         * Weight builder.
+         *
+         * @param weight the weight
+         * @return the builder
+         */
         public Builder weight(int weight) {
             this.weight = weight;
             return this;
@@ -261,5 +267,13 @@ public class Flight implements Edge {
         result = 31 * result + arrivalAirport.hashCode();
         result = 31 * result + plane.hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Flight{" +
+                "number='" + number + '\'' +
+                ", id='" + id + '\'' +
+                '}';
     }
 }
