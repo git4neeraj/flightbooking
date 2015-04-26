@@ -1,10 +1,8 @@
-package com.ideas.codingtest.fbl.business;
+package com.ideas.codingtest.fbl.domain;
 
-import com.ideas.codingtest.fbl.domain.*;
 import com.ideas.codingtest.fbl.domain.dijkstra.Edge;
 import com.ideas.codingtest.fbl.domain.dijkstra.Vertex;
 import org.joda.time.DateTime;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -12,96 +10,24 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 /**
- * Created by Neeraj on 3/16/2015.
+ * Created by Neeraj on 4/27/2015.
  */
-public class TestBookingService {
+public class TestFlightGraph {
 
-   private static BookingService bookingService;
-
-    private static FlightsGraph flightsGraph;
-
-    private static Customer customer;
-
-    private static List<Passenger> passengers ;
+    private static List<Vertex> airports;
+    private static List<Edge> flights;
 
     /**
-     * Pre set up.
+     *  Pre set up.
      */
     @BeforeClass
     public static void preSetUp(){
-        List<Vertex> airports =new ArrayList<>();
-        List<Edge> flights =new ArrayList<>();
-        init(airports,flights);
-        flightsGraph = new FlightsGraph(airports,flights);
-        bookingService=new BookingService(flightsGraph);
-
-
-    }
-
-
-    /**
-     * Post set up per test.
-     */
-    @Before
-    public void postSetUpPerTest(){
-        customer=new Customer();
-        customer.setForename("TEST1");
-        customer.setSurname("USER");
-        customer.setSaluation("MR");
-        customer.setTelNum("98888999");
-        //passenger1
-        Passenger passenger1 =new Passenger();
-        passenger1.setFirstName("Passenger 1");
-        passenger1.setAge(24);
-
-        //passenger2
-        Passenger passenger2 =new Passenger();
-        passenger2.setFirstName("Passenger 2");
-        passenger2.setAge(12);
-        //passengers
-        passengers=new ArrayList<>();
-        passengers.add(passenger1);
-        passengers.add(passenger2);
-    }
-
-    /**
-     * Test book flight.
-     */
-    @Test
-    public void testBookFlight(){
-        Airport newDelhi=new Airport("NDL",City.NEWDELHI.toString(), Country.INDIA);
-        Airport colombo=new Airport("COL",City.COLOMBO.toString(),Country.SHREELANKA);
-        Airport katmandu=new Airport("KAT",City.KATHMANDU.toString(),Country.NEPAL);
-
-        List<Vertex> flights1 =bookingService.bookFlight(new Booking(customer,passengers, newDelhi, colombo));
-        assertEquals(newDelhi,flights1.get(0));
-        assertEquals(colombo,flights1.get(flights1.size() - 1));
-        assertEquals(4,flights1.size());
-
-        List<Vertex> flights2 =bookingService.bookFlight(new Booking(customer,passengers, newDelhi, katmandu));
-        assertEquals(newDelhi,flights2.get(0));
-        assertEquals(katmandu,flights2.get(flights2.size() - 1));
-        assertEquals(2,flights2.size());
-        Airport [] expectedAirports={newDelhi,katmandu};
-        assertArrayEquals(expectedAirports,flights2.toArray());
-    }
-
-    /**
-     * Tear down.
-     */
-    @After
-    public void tearDown(){
-        bookingService=null;
-        flightsGraph=null;
-    }
-
-
-    private static void init(List<Vertex> airports, List<Edge> flights) {
+        airports =new ArrayList<>();
+        flights =new ArrayList<>();
         Airport newDelhi=new Airport("NDL",City.NEWDELHI.toString(), Country.INDIA);
         Airport indore=new Airport("INR",City.INDORE.toString(), Country.INDIA);
         Airport ahemdabad=new Airport("AHM",City.AHMEDABAD.toString(),Country.INDIA);
@@ -113,7 +39,7 @@ public class TestBookingService {
         Airport katmandu=new Airport("KAT",City.KATHMANDU.toString(),Country.NEPAL);
         Airport dhaka=new Airport("DHK",City.DHAKA.toString(),Country.BANGLADESH);
         Airport colombo=new Airport("COL",City.COLOMBO.toString(),Country.SHREELANKA);
-        //
+
         airports.add(newDelhi);
         airports.add(indore);
         airports.add(ahemdabad);
@@ -125,6 +51,7 @@ public class TestBookingService {
         airports.add(katmandu);
         airports.add(dhaka);
         airports.add(colombo);
+
         //flights
         flights.add(new Flight.Builder()
                 .departureAirport(newDelhi)
@@ -199,5 +126,45 @@ public class TestBookingService {
                 .weight(3)
                 .plane(new Plane("BOEING727",100))
                 .build());
+    }
+
+
+    /**
+     * Post set up per test.
+     */
+    @Before
+    public void postSetUpPerTest(){
+
+    }
+
+    /**
+     * Test flight graph creation.
+     */
+    @Test
+    public void testFlightGraphCreation() {
+        FlightsGraph   flightsGraph = new FlightsGraph(airports,flights);
+        assertNotNull(flightsGraph);
+        assertNotNull(flightsGraph.getAirports());
+        assertNotNull(flightsGraph.getFlights());
+    }
+
+    @Test(expected = IllegalArgumentException.class )
+    public void testEmptyAirportsAndFlightsFlightGraphCreation() {
+        FlightsGraph   flightsGraph = new FlightsGraph(new ArrayList<Vertex>(),new ArrayList<Edge>());
+    }
+
+    @Test(expected = IllegalArgumentException.class )
+    public void testNullAirportsOnFlighGraphCreationIllegalArgumentException() throws IllegalArgumentException {
+        FlightsGraph   flightsGraph3 = new FlightsGraph(null,flights);
+    }
+
+    @Test(expected = IllegalArgumentException.class )
+    public void testNullFlightsOnFlighGraphCreationIllegalArgumentException() throws IllegalArgumentException {
+        FlightsGraph   flightsGraph3 = new FlightsGraph(airports,null);
+    }
+
+    @Test(expected = IllegalArgumentException.class )
+    public void testNullAirportsAndFlightsOnFlighGraphCreationIllegalArgumentException() throws IllegalArgumentException {
+        FlightsGraph   flightsGraph3 = new FlightsGraph(airports,null);
     }
 }

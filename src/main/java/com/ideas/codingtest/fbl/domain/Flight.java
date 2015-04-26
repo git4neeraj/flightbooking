@@ -1,10 +1,8 @@
 package com.ideas.codingtest.fbl.domain;
 
 import com.ideas.codingtest.fbl.domain.dijkstra.Edge;
-import com.ideas.codingtest.fbl.domain.dijkstra.Vertex;
 import org.joda.time.DateTime;
 
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,9 +15,9 @@ public class Flight implements Edge {
 
     private String number;
 
-    private String id;
+    private Airline airline;
 
-    private int wieght;
+    private int weight;
 
     private DateTime departureTime;
 
@@ -37,15 +35,20 @@ public class Flight implements Edge {
      *
      * @param builder the builder
      */
-    public Flight(Builder builder) {
+    private Flight(Builder builder) throws IllegalArgumentException{
+        if (builder.number == null || builder.airline == null || builder.departureTime == null
+                || builder.arrivalTime == null || builder.departureAirport == null||builder.arrivalAirport == null
+                || builder.plane == null || builder.weight <= 0) {
+            throw new IllegalArgumentException();
+        }
         this.number = builder.number;
-        this.id=builder.id;
+        this.airline=builder.airline;
         this.departureTime = builder.departureTime;
         this.arrivalTime = builder.arrivalTime;
         this.departureAirport = builder.departureAirport;
         this.arrivalAirport = builder.arrivalAirport;
         this.plane = builder.plane;
-        this.wieght=builder.weight;
+        this.weight =builder.weight;
     }
 
 
@@ -67,12 +70,12 @@ public class Flight implements Edge {
         return number;
     }
 
-    public String getId() {
-        return id;
+    public Airline getAirline() {
+        return airline;
     }
 
     public int getWeight() {
-        return wieght;
+        return weight;
     }
 
     /**
@@ -97,6 +100,11 @@ public class Flight implements Edge {
         return departureAirport;
     }
 
+    @Override
+    public String getId() {
+        return airline.getId();
+    }
+
     public Airport getArrivalAirport() {
         return arrivalAirport;
     }
@@ -110,6 +118,39 @@ public class Flight implements Edge {
         return plane;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Builder builder = (Builder) o;
+
+        if (weight != builder.weight) return false;
+        if (!airline.equals(builder.airline)) return false;
+        if (!arrivalAirport.equals(builder.arrivalAirport)) return false;
+        if (!arrivalTime.equals(builder.arrivalTime)) return false;
+        if (!departureAirport.equals(builder.departureAirport)) return false;
+        if (!departureTime.equals(builder.departureTime)) return false;
+        if (!number.equals(builder.number)) return false;
+        if (!plane.equals(builder.plane)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = number.hashCode();
+        result = 31 * result + airline.hashCode();
+        result = 31 * result + weight;
+        result = 31 * result + departureTime.hashCode();
+        result = 31 * result + arrivalTime.hashCode();
+        result = 31 * result + departureAirport.hashCode();
+        result = 31 * result + arrivalAirport.hashCode();
+        result = 31 * result + plane.hashCode();
+        return result;
+    }
+
+
     /**
      * The type Builder.
      */
@@ -117,7 +158,7 @@ public class Flight implements Edge {
 
         private String number;
 
-        private String id;
+        private Airline airline;
 
         private int weight;
 
@@ -149,16 +190,12 @@ public class Flight implements Edge {
             return this;
         }
 
-        /**
-         * Id builder.
-         *
-         * @param id the id
-         * @return the builder
-         */
-        public Builder id(String id) {
-            this.id = id;
+
+        public Builder airline(Airline airline) {
+            this.airline = airline;
             return this;
         }
+
 
         /**
          * Weight builder.
@@ -236,45 +273,7 @@ public class Flight implements Edge {
         }
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
 
-        Flight flight = (Flight) o;
 
-        if (wieght != flight.wieght) return false;
-        if (!arrivalAirport.equals(flight.arrivalAirport)) return false;
-        if (!arrivalTime.equals(flight.arrivalTime)) return false;
-        if (!bookings.equals(flight.bookings)) return false;
-        if (!departureAirport.equals(flight.departureAirport)) return false;
-        if (!departureTime.equals(flight.departureTime)) return false;
-        if (!id.equals(flight.id)) return false;
-        if (!number.equals(flight.number)) return false;
-        if (!plane.equals(flight.plane)) return false;
 
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = bookings.hashCode();
-        result = 31 * result + number.hashCode();
-        result = 31 * result + id.hashCode();
-        result = 31 * result + wieght;
-        result = 31 * result + departureTime.hashCode();
-        result = 31 * result + arrivalTime.hashCode();
-        result = 31 * result + departureAirport.hashCode();
-        result = 31 * result + arrivalAirport.hashCode();
-        result = 31 * result + plane.hashCode();
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Flight{" +
-                "number='" + number + '\'' +
-                ", id='" + id + '\'' +
-                '}';
-    }
 }

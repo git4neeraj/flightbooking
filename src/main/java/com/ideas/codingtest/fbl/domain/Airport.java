@@ -20,7 +20,10 @@ public class Airport implements Vertex {
      * @param name the name
      * @param country the country
      */
-    public Airport(String id, String name, Country country) {
+    public Airport(String id, String name, Country country) throws IllegalArgumentException{
+        if(id ==null || name ==null || country ==null){
+            throw new IllegalArgumentException();
+        }
         this.id = id;
         this.name = name;
         this.country = country;

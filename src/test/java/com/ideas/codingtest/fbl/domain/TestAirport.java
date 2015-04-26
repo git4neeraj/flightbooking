@@ -45,4 +45,9 @@ public class TestAirport {
         assertNotNull(airport);
         assertEquals(City.NEWDELHI.toString(),airport.getName());
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testAirportCreationIllegalArgumentException(){
+        Airport airport =new Airport(null,City.NEWDELHI.toString(),Country.INDIA);
+    }
 }

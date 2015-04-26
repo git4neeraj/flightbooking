@@ -1,73 +1,19 @@
 package com.ideas.codingtest.fbl.domain;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
- * Created by Neeraj on 3/16/2015.
+ * Created by Neeraj on 4/27/2015.
  */
-public class Airline {
+public enum Airline {
+    INDIGO("INDG001"),GOAIR("GOAI002"),AIRINDIA("AIRI003"),JETAIRWAYS("JETA004");
 
-    private String name = null;
+    private final String id ;
 
-    private final Map<String, Flight> flights = new HashMap<>();
-
-
-    /**
-     * Instantiates a new Airline.
-     *
-     * @param name the name
-     */
-    public Airline(final String name) {
-        this.setName(name);
+    Airline(String id) {
+        this.id = id;
     }
 
-    /**
-     * Gets name.
-     *
-     * @return the name
-     */
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
 
-    /**
-     * Sets name.
-     *
-     * @param name the name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * Gets flights.
-     *
-     * @return the flights map
-     */
-    public Map<String, Flight> getFlights() {
-        return flights;
-    }
-
-    /**
-     * Add flight.
-     *
-     * @param flight the flight
-     * @return the flights map
-     */
-    public Map<String, Flight> addFlight(Flight flight) {
-        flights.put(flight.getNumber(),flight);
-        return flights;
-    }
-
-    /**
-     * Delete flight.
-     *
-     * @param flight the flight
-     * @return the flights map
-     */
-    public Map<String, Flight> deleteFlight(Flight flight) {
-        flights.remove(flight.getNumber());
-        return flights;
-    }
 }

@@ -18,7 +18,11 @@ public class FlightsGraph {
      * @param airports the airports
      * @param flights the flights
      */
-    public FlightsGraph(List<Vertex> airports, List<Edge> flights) {
+    public FlightsGraph(List<Vertex> airports, List<Edge> flights) throws IllegalArgumentException {
+        if(airports == null ||flights == null||airports.isEmpty()||flights.isEmpty()) {
+            throw new IllegalArgumentException("Arguments Airports or Flights can't be null or empty");
+        }
+
         this.airports = airports;
         this.flights = flights;
     }
